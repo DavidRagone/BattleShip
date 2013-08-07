@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "battle_ship"
   spec.version       = BattleShip::VERSION
   spec.authors       = ["DavidRagone"]
-  spec.email         = ["david@ouya.tv"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.email         = ["dmragone@gmail.com"]
+  spec.description   = %q{Wrapper class for Rails.cache related methods to track cache hits & misses}
+  spec.summary       = %q{Wrapper for Rails.cache methods}
+  spec.homepage      = "http://www.dmragone.com"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
