@@ -31,9 +31,16 @@ describe BattleShip do
         BattleShip.read(:foo, :bar).should eq 'a value'
       end
 
-      it "increments namespace counter when value is non-nil" do
+      it "increments namespace hit counter when value is non-nil" do
         Cache.stub(:read) { 'a value' }
-        Cache.should_receive(:increment)
+        Cache.should_receive(:increment).with('foo_hit', 1, {})
+
+        BattleShip.read(:foo, :bar)
+      end
+
+      it "increments namespace miss counter when value is nil" do
+        Cache.stub(:read) { nil }
+        Cache.should_receive(:increment).with('foo_miss', 1, {})
 
         BattleShip.read(:foo, :bar)
       end
