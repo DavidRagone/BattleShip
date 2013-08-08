@@ -2,6 +2,8 @@
 
 ### Keep track of your cache hits & misses
 
+## WARNING: WORK IN PROGRESS. NOT READY YET!
+
 #### Description
 If you make use of Rails.cache methods (e.g. #fetch, #read, #write), you may be
 curious what your success is with your caching strategies. Perhaps you cache
