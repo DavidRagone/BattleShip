@@ -7,38 +7,33 @@ class Rails
 end
 
 class Cache
-  def read(value)
+  class << self
+    def read(value)
+    end
+
+    def increment(n,a=1,o={})
+    end
   end
 end
 
 describe BattleShip do
-  before do
-    # setup
-  end
-
   describe ".read" do
     shared_examples_for :read do
-      let(:cache_double) { double }
-
       it "retrieves value from Rails.cache.read" do
-        Rails.should_receive(:cache) { cache_double }
-        cache_double.should_receive(:read).with("namespace_#{uniqueid}")
+        Cache.should_receive(:read).with("namespace_#{uniqueid}")
 
         BattleShip.read(:namespace, uniqueid)
       end
 
       it "returns value from Rails.cache.read" do
-        Rails.stub_chain(:cache, :read) { 'a value' }
+        Cache.stub(:read) { 'a value' }
 
         BattleShip.read(:foo, :bar).should eq 'a value'
       end
 
       it "increments namespace counter when value is non-nil" do
-        incrementer = double increment: 5
-        # How stub same object with two differen tmethods, expect both be called?
-        Rails.stub(:cache) { double :cache, read: 'a value' }
-        Rails.stub(:cache) { incrementer }
-        incrementer.should_receive(:increment)
+        Cache.stub(:read) { 'a value' }
+        Cache.should_receive(:increment)
 
         BattleShip.read(:foo, :bar)
       end
