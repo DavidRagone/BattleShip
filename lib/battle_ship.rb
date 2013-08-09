@@ -4,17 +4,13 @@ module BattleShip
   class << self
     def read(namespace, uid)
       value = Rails.cache.read(namespace.to_s << '_' << uid.to_s)
-      if value
-        increment(namespace.to_s << '_hit')
-      else
-        increment(namespace.to_s << '_miss')
-      end
+      increment("#{namespace}_#{value.nil? ? 'miss' : 'hit'}")
       value
     end
 
     private
-    def increment(namespace, amount = 1, options = {})
-      Rails.cache.increment(namespace, amount, options)
+    def increment(key, amount = 1, options = {})
+      Rails.cache.increment(key, amount, options)
     end
   end
 end
