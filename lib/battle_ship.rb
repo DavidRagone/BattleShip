@@ -4,7 +4,7 @@ module BattleShip
   class << self
     def read(namespace, uid)
       value = cache.read(namespaced(namespace, uid))
-      increment("#{namespace}_#{value.nil? ? 'miss' : 'hit'}")
+      increment_hit_or_miss(namespace, value)
       value
     end
 
@@ -13,8 +13,9 @@ module BattleShip
     end
 
     private
-    def increment(key, amount = 1, options = {})
-      cache.increment(key, amount, options)
+    def increment_hit_or_miss(namespace, value, amount = 1, options = {})
+      hit_or_miss = value.nil? ? '_miss' : '_hit'
+      cache.increment(namespace.to_s << hit_or_miss, amount, options)
     end
 
     def namespaced(namespace, uid)
