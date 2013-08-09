@@ -5,14 +5,8 @@ class Rails
     Cache
   end
 end
-
 class Cache
-  class << self
-    def read(value)
-    end
-
-    def increment(n,a=1,o={})
-    end
+  def self.increment(n,a=1,o={})
   end
 end
 
@@ -62,6 +56,37 @@ describe BattleShip do
       let(:uniqueid) { 4 }
 
       it_behaves_like :read
+    end
+  end
+
+  describe ".write" do
+    shared_examples_for :write do
+      it "writes value to Rails.cache.write using given key" do
+        Cache.should_receive(:write).with("namespace_#{uniqueid}", value, {})
+
+        BattleShip.write(:namespace, uniqueid, value)
+      end
+    end
+
+    context 'when uniqueid is a symbol' do
+      let(:uniqueid) { :foo }
+      let(:value) { :bar }
+
+      it_behaves_like :write
+    end
+
+    context 'when uniqueid is a string' do
+      let(:uniqueid) { 'foo' }
+      let(:value) { 'bar' }
+
+      it_behaves_like :write
+    end
+
+    context 'when uniqueid is a number' do
+      let(:uniqueid) { 4 }
+      let(:value) { 5 }
+
+      it_behaves_like :write
     end
   end
 end
