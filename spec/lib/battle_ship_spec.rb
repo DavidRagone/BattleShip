@@ -89,4 +89,74 @@ describe BattleShip do
       it_behaves_like :write
     end
   end
+
+  describe ".fetch" do
+    # name, options = nil
+    pending
+    shared_examples_for :fetch do
+    end
+    context "when block given" do
+      context "when value found" do
+      end
+
+      context "when value absent" do
+      end
+    end
+
+    context "when block absent" do
+      context "when value found" do
+      end
+
+      context "when value absent" do
+      end
+    end
+  end
+
+  describe ".cleanup" do
+    # options = nil
+    pending
+  end
+
+  describe ".clear" do
+    # options = nil
+    pending
+  end
+
+  describe ".decrement" do
+    # name, amount = 1, options = nil
+    pending
+  end
+
+  describe ".delete" do
+    # name, options
+    pending
+  end
+
+  describe ".delete_matched" do
+    # matcher, options = nil
+    pending
+  end
+
+  describe ".exist?" do
+    # name, options = nil
+    pending
+  end
+
+  describe ".increment" do
+    # name, amount = 1, options = nil
+    pending
+  end
+
+  describe ".mute" do
+    pending
+  end
+
+  describe ".read_multi" do
+    # *names - options is last
+    pending
+  end
+
+  describe ".silence!" do
+    pending
+  end
 end

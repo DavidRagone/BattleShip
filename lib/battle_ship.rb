@@ -8,12 +8,12 @@ module BattleShip
       value
     end
 
-    def write(namespace, uid, value, options = {})
+    def write(namespace, uid, value, options = nil)
       cache.write(namespaced(namespace, uid), value, options)
     end
 
     private
-    def increment_hit_or_miss(namespace, value, amount = 1, options = {})
+    def increment_hit_or_miss(namespace, value, amount = 1, options = nil)
       hit_or_miss = value.nil? ? '_miss' : '_hit'
       cache.increment(namespace.to_s << hit_or_miss, amount, options)
     end
