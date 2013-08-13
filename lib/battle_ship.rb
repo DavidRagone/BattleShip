@@ -12,6 +12,17 @@ module BattleShip
       cache.write(namespaced(namespace, uid), value, options)
     end
 
+    def fetch(namespace, uid, options = nil)
+      # http://mudge.name/2011/01/26/passing-blocks-in-ruby-without-block.html
+      namespaced = namespaced(namespace, uid)
+      increment_hit_or_miss(namespace, cache.read(namespaced))
+      if block_given?
+        cache.fetch(namespaced, options, &Proc.new)
+      else
+        cache.fetch(namespaced, options)
+      end
+    end
+
     private
     def increment_hit_or_miss(namespace, value, amount = 1, options = nil)
       hit_or_miss = value.nil? ? '_miss' : '_hit'

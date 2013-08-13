@@ -6,6 +6,8 @@ class Rails
   end
 end
 class Cache
+  def self.read(key)
+  end
   def self.increment(n,a=1,o={})
   end
 end
@@ -15,46 +17,39 @@ describe BattleShip do
     shared_examples_for :read do
       it "retrieves value from Rails.cache.read" do
         Cache.should_receive(:read).with("namespace_#{uniqueid}")
-
         BattleShip.read(:namespace, uniqueid)
       end
 
       it "returns value from Rails.cache.read" do
         Cache.stub(:read) { 'a value' }
-
         BattleShip.read(:foo, :bar).should eq 'a value'
       end
 
       it "increments namespace hit counter when value is non-nil" do
         Cache.stub(:read) { 'a value' }
-        Cache.should_receive(:increment).with('foo_hit', 1, {})
-
+        Cache.should_receive(:increment).with('foo_hit', 1, nil)
         BattleShip.read(:foo, :bar)
       end
 
       it "increments namespace miss counter when value is nil" do
         Cache.stub(:read) { nil }
-        Cache.should_receive(:increment).with('foo_miss', 1, {})
-
+        Cache.should_receive(:increment).with('foo_miss', 1, nil)
         BattleShip.read(:foo, :bar)
       end
     end
 
     context 'when uniqueid is a symbol' do
       let(:uniqueid) { :foo }
-
       it_behaves_like :read
     end
 
     context 'when uniqueid is a string' do
       let(:uniqueid) { 'foo' }
-
       it_behaves_like :read
     end
 
     context 'when uniqueid is a number' do
       let(:uniqueid) { 4 }
-
       it_behaves_like :read
     end
   end
@@ -62,8 +57,7 @@ describe BattleShip do
   describe ".write" do
     shared_examples_for :write do
       it "writes value to Rails.cache.write using given key" do
-        Cache.should_receive(:write).with("namespace_#{uniqueid}", value, {})
-
+        Cache.should_receive(:write).with("namespace_#{uniqueid}", value, nil)
         BattleShip.write(:namespace, uniqueid, value)
       end
     end
@@ -71,31 +65,51 @@ describe BattleShip do
     context 'when uniqueid is a symbol' do
       let(:uniqueid) { :foo }
       let(:value) { :bar }
-
       it_behaves_like :write
     end
 
     context 'when uniqueid is a string' do
       let(:uniqueid) { 'foo' }
       let(:value) { 'bar' }
-
       it_behaves_like :write
     end
 
     context 'when uniqueid is a number' do
       let(:uniqueid) { 4 }
       let(:value) { 5 }
-
       it_behaves_like :write
     end
   end
 
   describe ".fetch" do
-    # name, options = nil
-    pending
     shared_examples_for :fetch do
+      it "retrieves value from Rails.cache.fetch" do
+        Cache.should_receive(:fetch)
+        subject
+      end
+
+      it "returns value from Rails.cache.fetch" do
+        Cache.stub(:fetch) { 'a value' }
+        subject.should eq 'a value'
+      end
+
+      it "increments namespace hit counter when value is non-nil" do
+        Cache.stub(:fetch) { 'a value' }
+        Cache.stub(:read) { 'a value' }
+        Cache.should_receive(:increment).with('foo_hit', 1, nil)
+        subject
+      end
+
+      it "increments namespace miss counter when value is nil" do
+        Cache.stub(:fetch) { nil }
+        Cache.should_receive(:increment).with('foo_miss', 1, nil)
+        subject
+      end
     end
     context "when block given" do
+      subject { described_class.fetch(:foo, :bar) { 'a value' } }
+      it_behaves_like :fetch
+
       context "when value found" do
       end
 
@@ -104,6 +118,9 @@ describe BattleShip do
     end
 
     context "when block absent" do
+      subject { described_class.fetch(:foo, :bar) }
+      it_behaves_like :fetch
+
       context "when value found" do
       end
 
