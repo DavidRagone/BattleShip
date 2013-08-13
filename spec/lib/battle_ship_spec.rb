@@ -130,50 +130,137 @@ describe BattleShip do
   end
 
   describe ".cleanup" do
-    # options = nil
-    pending
+    let(:options) { { } }
+    it "passes to underlying" do
+      Cache.should_receive(:cleanup).with(options)
+      BattleShip.cleanup(options)
+    end
+
+    it "does not require options" do
+      Cache.should_receive(:cleanup).with(nil)
+      BattleShip.cleanup
+    end
   end
 
   describe ".clear" do
-    # options = nil
-    pending
+    let(:options) { { } }
+    it "passes to underlying" do
+      Cache.should_receive(:clear).with(options)
+      BattleShip.clear(options)
+    end
+
+    it "does not require options" do
+      Cache.should_receive(:clear).with(nil)
+      BattleShip.clear
+    end
   end
 
   describe ".decrement" do
-    # name, amount = 1, options = nil
-    pending
+    let(:options) { { } }
+    let(:namespace) { 'name' }
+    let(:uid) { '1' }
+    let(:amount) { 2 }
+    it "passes to underlying" do
+      Cache.should_receive(:decrement).with('name_1', amount, options)
+      BattleShip.decrement(namespace, uid, amount, options)
+    end
+
+    it "defaults amount to 1" do
+      Cache.should_receive(:decrement).with('name_1', 3, options)
+      BattleShip.decrement(namespace, uid, 3, options)
+    end
+
+    it "does not require options" do
+      Cache.should_receive(:decrement).with('name_1', 1, nil)
+      BattleShip.decrement(namespace, uid)
+    end
   end
 
   describe ".delete" do
-    # name, options
-    pending
+    let(:namespace) { 'name' }
+    let(:uid) { 1 }
+    let(:options) { { } }
+    it "passes to underlying" do
+      Cache.should_receive(:delete).with('name_1', options)
+      BattleShip.delete(namespace, uid, options)
+    end
+
+    it "does not require options" do
+      Cache.should_receive(:delete).with('name_1', nil)
+      BattleShip.delete(namespace, uid)
+    end
   end
 
   describe ".delete_matched" do
-    # matcher, options = nil
-    pending
+    let(:matcher) { 'something*' }
+    let(:options) { { } }
+    it "passes to underlying" do
+      Cache.should_receive(:delete_matched).with(matcher, options)
+      BattleShip.delete_matched(matcher, options)
+    end
+
+    it "does not require options" do
+      Cache.should_receive(:delete_matched).with(matcher, nil)
+      BattleShip.delete_matched(matcher)
+    end
   end
 
   describe ".exist?" do
-    # name, options = nil
-    pending
+    let(:namespace) { 'name' }
+    let(:uid) { 1 }
+    let(:options) { { } }
+    it "passes to underlying" do
+      Cache.should_receive(:exist?).with('name_1', options)
+      BattleShip.exist?(namespace, uid, options)
+    end
+
+    it "does not require options" do
+      Cache.should_receive(:exist?).with('name_1', nil)
+      BattleShip.exist?(namespace, uid)
+    end
   end
 
   describe ".increment" do
-    # name, amount = 1, options = nil
-    pending
+    let(:options) { { } }
+    let(:namespace) { 'name' }
+    let(:uid) { '1' }
+    let(:amount) { 2 }
+    it "passes to underlying" do
+      Cache.should_receive(:increment).with('name_1', amount, options)
+      BattleShip.increment(namespace, uid, amount, options)
+    end
+
+    it "defaults amount to 1" do
+      Cache.should_receive(:increment).with('name_1', 3, options)
+      BattleShip.increment(namespace, uid, 3, options)
+    end
+
+    it "does not require options" do
+      Cache.should_receive(:increment).with('name_1', 1, nil)
+      BattleShip.increment(namespace, uid)
+    end
   end
 
   describe ".mute" do
-    pending
+    it "passes to underlying" do
+      Cache.should_receive(:mute)
+      BattleShip.mute
+    end
   end
 
   describe ".read_multi" do
     # *names - options is last
-    pending
+    let(:names) { ['1', '2', '3'] }
+    it "passes to underlying" do
+      Cache.should_receive(:read_multi).with(names)
+      BattleShip.read_multi(names)
+    end
   end
 
   describe ".silence!" do
-    pending
+    it "passes to underlying" do
+      Cache.should_receive(:silence!)
+      BattleShip.silence!
+    end
   end
 end

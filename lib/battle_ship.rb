@@ -23,6 +23,46 @@ module BattleShip
       end
     end
 
+    def cleanup(options = nil)
+      cache.cleanup(options)
+    end
+
+    def clear(options = nil)
+      cache.clear(options)
+    end
+
+    def decrement(namespace, uid, amount = 1, options = nil)
+      cache.decrement(namespaced(namespace, uid), amount, options)
+    end
+
+    def delete(namespace, uid, options = nil)
+      cache.delete(namespaced(namespace, uid), options)
+    end
+
+    def delete_matched(matcher, options = nil)
+      cache.delete_matched(matcher, options)
+    end
+
+    def exist?(namespace, uid, options = nil)
+      cache.exist?(namespaced(namespace, uid), options)
+    end
+
+    def increment(namespace, uid, amount = 1, options = nil)
+      cache.increment(namespaced(namespace, uid), amount, options)
+    end
+
+    def mute
+      cache.mute
+    end
+
+    def read_multi(*names)
+      cache.read_multi(*names)
+    end
+
+    def silence!
+      cache.silence!
+    end
+
     private
     def increment_hit_or_miss(namespace, value, amount = 1, options = nil)
       hit_or_miss = value.nil? ? '_miss' : '_hit'
