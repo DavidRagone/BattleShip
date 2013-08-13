@@ -6,9 +6,14 @@ class Rails
   end
 end
 class Cache
-  def self.read(key)
+  def self.read(k)
   end
-  def self.increment(n,a=1,o={})
+  def self.increment(k,a=1,o=nil)
+  end
+  def self.fetch(k,o=nil)
+    if block_given?
+      yield
+    end
   end
 end
 
@@ -107,25 +112,20 @@ describe BattleShip do
       end
     end
     context "when block given" do
-      subject { described_class.fetch(:foo, :bar) { 'a value' } }
+      subject { described_class.fetch(:foo, :bar) { 'a different value' } }
       it_behaves_like :fetch
 
-      context "when value found" do
-      end
-
       context "when value absent" do
+        it "should set the value" do
+          subject
+          subject.should eq 'a different value'
+        end
       end
     end
 
     context "when block absent" do
       subject { described_class.fetch(:foo, :bar) }
       it_behaves_like :fetch
-
-      context "when value found" do
-      end
-
-      context "when value absent" do
-      end
     end
   end
 
