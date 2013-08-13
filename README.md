@@ -2,8 +2,6 @@
 
 ### Keep track of your cache hits & misses
 
-## WARNING: WORK IN PROGRESS. NOT READY YET!
-
 #### Description
 If you make use of Rails.cache methods (e.g. #fetch, #read, #write), you may be
 curious what your success is with your caching strategies. Perhaps you cache
@@ -20,6 +18,8 @@ method. This .cache method must implement the following:
   - read
   - write
   - increment
+
+This cache must also be able to complete atomic increment operations with the #increment method
 
 Currently the only such Cache::Store that I know of that does this is
 RedisStore. You can get this by using the (redis-rails
