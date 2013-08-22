@@ -46,7 +46,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Instead of calling Rails.cache, call BattleShip. Instead of passing a key, pass
+in both a namespace (e.g., sessions or users) and a unique id (e.g. auth_token
+or user.id).
 
 ## Contributing
 
@@ -55,3 +57,9 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## To Do
+
+1) Add config method with any necessary config
+2) Create specs specifically using redis-store and memcache-store.
+3) Document the above
