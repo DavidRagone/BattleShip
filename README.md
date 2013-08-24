@@ -70,7 +70,5 @@ as a symbol or string.
 
 ## To Do
 
-1. Add accessors for the _hit and _miss values
-2. Add config method with any necessary config
-3. Create specs specifically using redis-store and memcache-store.
-4. Document the above
+1. Add config method with any necessary config
+2. Create specs specifically using redis-store and memcache-store, document here
