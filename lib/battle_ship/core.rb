@@ -37,6 +37,14 @@ module BattleShip
       cache.increment(namespaced(namespace, uid), amount, options)
     end
 
+    def hits(namespace)
+      cache.read("#{namespace}_hit")
+    end
+
+    def misses(namespace)
+      cache.read("#{namespace}_miss")
+    end
+
     private
     def increment_hit_or_miss(namespace, value, amount = 1, options = nil)
       hit_or_miss = value.nil? ? '_miss' : '_hit'

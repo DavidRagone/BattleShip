@@ -55,6 +55,11 @@ used Rails.cache.
   1 (hence the need for atomic increment operations)
 * If there is no value found, BattleShip will increment the key at "user_miss"
 
+At any time, you can access the current number of hits and misses by calling
+BattleShip.hits(:namespace) and BattleShip.misses(:namespace), where :namespace
+is any given namespace you have used (e.g. 'user', as above). This can be passed
+as a symbol or string.
+
 ## Contributing
 
 1. Fork it

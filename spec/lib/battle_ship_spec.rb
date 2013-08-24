@@ -241,6 +241,20 @@ describe BattleShip do
     end
   end
 
+  describe ".hits" do
+    it "returns the hits" do
+      Cache.should_receive(:read).with("foo_hit") { 4 }
+      BattleShip.hits(:foo).should eq 4
+    end
+  end
+
+  describe ".misses" do
+    it "returns the hits" do
+      Cache.should_receive(:read).with("foo_miss") { 4 }
+      BattleShip.misses(:foo).should eq 4
+    end
+  end
+
   describe ".mute" do
     it "passes to underlying" do
       Cache.should_receive(:mute)
