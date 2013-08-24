@@ -55,7 +55,6 @@ used Rails.cache.
   1 (hence the need for atomic increment operations)
 * If there is no value found, BattleShip will increment the key at "user_miss"
 
-
 ## Contributing
 
 1. Fork it
