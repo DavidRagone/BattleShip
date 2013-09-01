@@ -1,3 +1,4 @@
+require 'active_support'
 require 'battle_ship'
 
 RSpec.configure do |config|

@@ -1,6 +1,23 @@
 module BattleShip
+  def read_entry(key, options) # :nodoc:
+    entry = super(key, options)
+    if entry
+      increment("#{entry.value.class}_hits")
+    else
+      increment("#{namespace(key, options)}_misses")
+    end
+    entry
+  end
+
+  private
+  def namespace(key, options)
+    (options[:namespace] || key_up_to_first_underscore(key)).capitalize
+  end
+
+  def key_up_to_first_underscore(key)
+    key[0..(key.index('_') -1)]
+  end
 end
 
 require "battle_ship/version"
-require "battle_ship/core"
-require "battle_ship/pass_through"
+require "active_support/cache/store"
