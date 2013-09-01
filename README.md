@@ -42,15 +42,15 @@ Just keep on using Rails.cache methods like you do today. BattleShip makes
 certain assumptions that you should be aware of:
 * When there's a cache hit, it will increment the value of the returned object's
   class name plus the string "\_hits" (e.g. a User object's hits will be stored
-in the cache at key "User_hits")
+in the cache at key ```"User_hits"```)
 * When there's a cache miss, BattleShip doesn't know exactly the class you were
   expecting, so it assumes that you either: (1) Passed in a namespace key in
 the options hash, or (2) Named your key such that the first underscore occurs
 after the name of the class (e.g. "User_123").
-* Access the hits by calling #hits on your particular cache implementation (e.g.
-  Rails.cache.hits) and passing in the namespace, e.g. User (either the string
+* Access the hits by calling ```#hits``` on your particular cache implementation (e.g.
+  ```Rails.cache.hits```) and passing in the namespace, e.g. User (either the string
 or the classname).
-* Same deal with misses, but call #misses instead
+* Same deal with misses, but call ```#misses``` instead
 
 
 ## Contributing
