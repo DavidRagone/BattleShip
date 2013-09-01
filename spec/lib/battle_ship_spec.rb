@@ -1,37 +1,31 @@
 require 'spec_helper'
 
-class User
-  def initialize(options)
-    @name = options[:name]
-    @age  = options[:age]
-  end
-end
+# For tests of #read_entry, see spec/lib/active_support_cache_subclass_spec.rb
+describe BattleShip do
+  let(:dummy) { Class.new { prepend(BattleShip) }.new }
 
-class ActiveSupport::Cache::Something < ActiveSupport::Cache::Store
-  protected
-  def read_entry(key, options)
-    @value
-  end
-
-  def write_entry(key, entry, options)
-    @value = entry
-  end
-end
-
-describe ActiveSupport::Cache::Something do
-  let(:cache) { ActiveSupport::Cache::Something.new }
-  let(:user) { User.new(name: 'Bob', age: 'old') }
-
-  context ".read" do
-    it "increments the related counter on hits" do
-      cache.should_receive(:increment).with("User_hits")
-      cache.write("user_1", user)
-      cache.read("user_1").should eq user
+  describe "#namespace" do
+    subject { dummy.send(:namespace, key, options) }
+    context "when options includes namespace" do
+      let(:key) { 'Key' }
+      let(:options) { { namespace: 'NameSpace' } }
+      it "returns the option's namespace" do
+        subject.should eq 'NameSpace'
+      end
     end
 
-    it "increments the related counter on misses" do
-      cache.should_receive(:increment).with("User_misses")
-      cache.read("user_1").should eq nil
+    context "when options does not include namespace" do
+      let(:key) { 'Key_Thing_123' }
+      let(:options) { { } }
+      it "returns the string preceding the first underscore" do
+        subject.should eq 'Key'
+      end
+    end
+  end
+
+  describe "#key_up_to_first_underscore" do
+    it "returns the string up to the first underscore" do
+      dummy.send(:key_up_to_first_underscore, 'someclass_thing').should eq 'someclass'
     end
   end
 end

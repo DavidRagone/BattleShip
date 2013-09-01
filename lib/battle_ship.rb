@@ -11,7 +11,7 @@ module BattleShip
 
   private
   def namespace(key, options)
-    (options[:namespace] || key_up_to_first_underscore(key)).capitalize
+    (options[:namespace] || key_up_to_first_underscore(key)).camelize
   end
 
   def key_up_to_first_underscore(key)
