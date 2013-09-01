@@ -8,18 +8,15 @@ curious what your success is with your caching strategies. Perhaps you cache
 some user objects, sessions, etc. How do you know whether it's working? What if
 it's mostly misses?
 
-BattleShip provides an api that wraps Rails.cache methods. It takes a namespace
-by which it will aggregate data on your cache hits and misses.
+BattleShip updates ActiveSupport::Cache::Store (and all its subclasses, so
+you're covered if you use RedisStore or MemcachedStore) to increment a counter
+for each cache hit and miss
 
 #### Warnings, Caveats, etc.
-Battleship is a gem that expects there to be a class called __Rails__ with a .cache
-method. This .cache method must implement the following:
-  - fetch
-  - read
-  - write
-  - increment
+BattleShip works by updating ActiveSupport::Cache::Store, so requires this class
+to exist.
 
-This cache must also be able to complete _atomic increment_ operations with the #increment method
+This cache must also be able to complete _atomic increment_ operations with the #increment method.
 
 This is early development days for BattleShip. Please feel free to open an issue
 here with either questions or suggestions. And, of course, contributions are
@@ -41,24 +38,18 @@ Or install it yourself as:
 
 ## Usage
 
-Instead of calling Rails.cache, call BattleShip. Instead of passing a key, pass
-in both a namespace (e.g., sessions or users) and a unique id (e.g. auth_token
-or user.id).
+Just keep on using Rails.cache methods like you do today. BattleShip makes
+certain assumptions that you should be aware of:
+* When there's a cache hit, it will increment the value of the returned object's
+  class name plus the string "\_hits" (e.g. a User object's hits will be stored
+in the cache at key "User_hits")
+* When there's a cache miss, BattleShip doesn't know exactly the class you were
+  expecting, so it assumes that you either: (1) Passed in a namespace key in
+the options hash, or (2) Named your key such that the first underscore occurs
+after the name of the class (e.g. "User_123").
 
-After adding to your Gemfile, use BattleShip where you would previously have
-used Rails.cache.
-* Caching User objects? Call ```BattleShip.write("user", user.id, user)``` for a
-  given user object
-* This will store the user object just as if you had called ```Rails.cache.write("user_#{user.id}", user)```
-* The benefit comes when you call read: ```BattleShip.read("user", 1)```
-* If you have a value cached, BattleShip will increment the key at "user_hit" by
-  1 (hence the need for atomic increment operations)
-* If there is no value found, BattleShip will increment the key at "user_miss"
-
-At any time, you can access the current number of hits and misses by calling
-BattleShip.hits(:namespace) and BattleShip.misses(:namespace), where :namespace
-is any given namespace you have used (e.g. 'user', as above). This can be passed
-as a symbol or string.
+TODO:
+How do users access the hits/misses? Need way to do this.
 
 ## Contributing
 
@@ -70,5 +61,8 @@ as a symbol or string.
 
 ## To Do
 
-1. Add config method with any necessary config
-2. Create specs specifically using redis-store and memcache-store, document here
+1. Add way to access the hits and misses (consider Model.hits ?)
+2. Add performance measurements
+3. Add rails example app
+4. Add config option for turning on/off
+5. Add config option for setting time-frame of hits/misses
