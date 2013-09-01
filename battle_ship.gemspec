@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["dmragone@gmail.com"]
   spec.description   = %q{Adds counters to cache when successful read operation completes in order to track Rails.cache hits & misses}
   spec.summary       = %q{Wrapper for Rails.cache methods}
-  spec.homepage      = "http://www.dmragone.com"
+  spec.homepage      = "https://github.com/DavidRagone/BattleShip"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
