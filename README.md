@@ -47,9 +47,11 @@ in the cache at key "User_hits")
   expecting, so it assumes that you either: (1) Passed in a namespace key in
 the options hash, or (2) Named your key such that the first underscore occurs
 after the name of the class (e.g. "User_123").
+* Access the hits by calling #hits on your particular cache implementation (e.g.
+  Rails.cache.hits) and passing in the namespace, e.g. User (either the string
+or the classname).
+* Same deal with misses, but call #misses instead
 
-TODO:
-How do users access the hits/misses? Need way to do this.
 
 ## Contributing
 
@@ -61,8 +63,7 @@ How do users access the hits/misses? Need way to do this.
 
 ## To Do
 
-1. Add way to access the hits and misses (consider Model.hits ?)
-2. Add performance measurements
-3. Add rails example app
-4. Add config option for turning on/off
-5. Add config option for setting time-frame of hits/misses
+1. Add performance measurements
+2. Add rails example app
+3. Add config option for turning on/off
+4. Add config option for setting time-frame of hits/misses
