@@ -1,19 +1,19 @@
 module BattleShip
   def hits(key)
-    read(key.to_s.camelize << '_hits', skip_increment: true)
+    read(key.to_s.camelize << '_hits', skip_increment: true, raw: true)
   end
 
   def misses(key)
-    read(key.to_s.camelize << '_misses', skip_increment: true)
+    read(key.to_s.camelize << '_misses', skip_increment: true, raw: true)
   end
 
   def read_entry(key, options) # :nodoc:
     entry = super(key, options)
     return entry if options[:skip_increment]
     if entry
-      increment("#{entry.value.class}_hits")
+      increment("#{entry.value.class}_hits", 1)
     else
-      increment("#{namespace(key, options)}_misses")
+      increment("#{namespace(key, options)}_misses", 1)
     end
     entry
   end
