@@ -4,6 +4,9 @@
 Climate](https://codeclimate.com/github/DavidRagone/BattleShip.png)](https://codeclimate.com/github/DavidRagone/BattleShip)
 [![Gem
 Version](https://badge.fury.io/rb/battle_ship.png)](http://badge.fury.io/rb/battle_ship)
+[![Build
+Status](https://travis-ci.org/DavidRagone/BattleShip.png)](https://travis-ci.org/DavidRagone/BattleShip)
+
 
 #### Description
 The BattleShip gem answers the question "What is my cache hit rate?"
