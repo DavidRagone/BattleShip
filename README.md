@@ -40,7 +40,7 @@ Or install it yourself as:
 
 
 #### Warnings, Caveats, etc.
-If you are using a cache store that does not subclass ActiveSupport::Cache::Store, then ```gem 'battle_ship``` must be listed _after_ the cache store you're using (the only example I'm currently aware of is Dalli).
+If you are using a cache store that does not subclass ActiveSupport::Cache::Store, please add an initializer file in ```config/initializers``` that calls ```BattleShip.include!```
 
 
 ## Contributing
