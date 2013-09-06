@@ -1,5 +1,8 @@
 # BattleShip
 
+[![Code
+Climate](https://codeclimate.com/github/DavidRagone/BattleShip.png)](https://codeclimate.com/github/DavidRagone/BattleShip)
+
 #### Description
 The BattleShip gem answers the question "What is my cache hit rate?"
 
