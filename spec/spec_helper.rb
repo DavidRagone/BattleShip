@@ -1,3 +1,11 @@
+class Cache
+end
+class Rails
+  def self.cache
+    Cache
+  end
+end
+
 require 'active_support'
 require 'battle_ship'
 

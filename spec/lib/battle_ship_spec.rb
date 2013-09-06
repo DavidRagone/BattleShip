@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-# For tests of #read_entry, see spec/lib/active_support_cache_subclass_spec.rb
 describe BattleShip do
   let(:dummy) { Class.new { prepend(BattleShip) }.new }
 
