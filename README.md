@@ -7,18 +7,17 @@ It does this by adding an increment to every cache read operation,
 counting each read as either a hit (returned non-nil value) or miss (returned
 nil). It stores the resulting numbers of hits and misses in the cache itself.
 
-BattleShip assumes that you want some aggregation on your hit and miss rates. It
-assumes you are caching objects (such as a User or Session object). On a hit, it
+BattleShip assumes you are caching objects (such as a User or Session object). On a hit, it
 will see the class name and increment the hit count at
 ```"#{returned_object.class}_hits"```, where returned_object is the object that
 the cache call returns. On a miss, BattleShip assumes that the key represents
 the class name (e.g. you called Rails.cache.read("user_1")), and increments the
-miss counter accordingly. If you pass in a ```:namespace``` key in the options
+miss counter accordingly (e.g. at "user_misses"). If you pass in a ```:namespace``` key in the options
 hash, it will use that instead.
 
 ## Usage
 
-Just keep on using Rails.cache methods like you do today.
+Cache things just liek you do with Rails.cache methods already.
 
 Access the hits by calling ```#hits``` on your particular cache implementation (e.g.
   ```Rails.cache.hits```) and passing in the namespace, e.g. User (either the string
