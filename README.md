@@ -42,6 +42,7 @@ Or install it yourself as:
 #### Warnings, Caveats, etc.
 If you are using a cache store that does not subclass ActiveSupport::Cache::Store, please add an initializer file in ```config/initializers``` that calls ```BattleShip.include!```
 
+BattleShip uses Module.prepend, so it requires Ruby-2.0.0
 
 ## Contributing
 
