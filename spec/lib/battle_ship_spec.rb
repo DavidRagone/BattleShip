@@ -6,14 +6,14 @@ describe BattleShip do
 
   describe "#hits" do
     it "reads, skipping increment" do
-      dummy.should_receive(:read).with("Foo_hits", { skip_increment: true })
+      dummy.should_receive(:read).with("Foo_hits", { skip_increment: true, raw: true })
       dummy.hits("Foo")
     end
   end
 
   describe "#misses" do
     it "reads, skipping increment" do
-      dummy.should_receive(:read).with("Foo_misses", { skip_increment: true })
+      dummy.should_receive(:read).with("Foo_misses", { skip_increment: true, raw: true })
       dummy.misses("Foo")
     end
   end

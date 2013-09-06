@@ -24,13 +24,13 @@ describe ActiveSupport::Cache::Something do
 
   context ".read" do
     it "increments the related counter on hits" do
-      cache.should_receive(:increment).with("User_hits")
+      cache.should_receive(:increment).with("User_hits", 1)
       cache.write("user_1", user)
       cache.read("user_1").should eq user
     end
 
     it "increments the related counter on misses" do
-      cache.should_receive(:increment).with("User_misses")
+      cache.should_receive(:increment).with("User_misses", 1)
       cache.read("user_1").should eq nil
     end
   end
