@@ -18,6 +18,10 @@ module BattleShip
     entry
   end
 
+  def self.include!
+    Rails.cache.class.class_eval("prepend BattleShip")
+  end
+
   private
   def namespace(key, options)
     (options[:namespace] || key_up_to_first_underscore(key)).camelize
@@ -30,4 +34,3 @@ end
 
 require "battle_ship/version"
 require "active_support/cache/store"
-require "active_support/cache/non_subclass_implementations"

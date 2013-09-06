@@ -43,4 +43,16 @@ describe BattleShip do
       end
     end
   end
+
+  describe ".include!" do
+    subject { BattleShip.include! }
+    it "forcefully prepends self to Rails.cache.class" do
+      klass = double
+      cache = double
+      Rails.should_receive(:cache) { cache }
+      cache.should_receive(:class) { klass }
+      klass.should_receive(:class_eval).with("prepend BattleShip")
+      subject
+    end
+  end
 end
