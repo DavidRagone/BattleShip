@@ -30,3 +30,4 @@ end
 
 require "battle_ship/version"
 require "active_support/cache/store"
+require "active_support/cache/non_subclass_implementations"
