@@ -1,28 +1,31 @@
 # BattleShip
 
-### Keep track of your cache hits & misses
-
 #### Description
-If you make use of Rails.cache methods (e.g. #fetch, #read, #write), you may be
-curious what your success is with your caching strategies. Perhaps you cache
-some user objects, sessions, etc. How do you know whether it's working? What if
-it's mostly misses?
+The BattleShip gem answers the question "What is my cache hit rate?"
 
-BattleShip updates ActiveSupport::Cache::Store (and all its subclasses, so
-you're covered if you use RedisStore or MemcachedStore) to increment a counter
-for each cache hit and miss
+It does this by adding an increment to every cache read operation,
+counting each read as either a hit (returned non-nil value) or miss (returned
+nil). It stores the resulting numbers of hits and misses in the cache itself.
 
-#### Warnings, Caveats, etc.
-BattleShip works by updating ActiveSupport::Cache::Store, so requires this class
-to exist.
+BattleShip assumes that you want some aggregation on your hit and miss rates. It
+assumes you are caching objects (such as a User or Session object). On a hit, it
+will see the class name and increment the hit count at
+```"#{returned_object.class}_hits"```, where returned_object is the object that
+the cache call returns. On a miss, BattleShip assumes that the key represents
+the class name (e.g. you called Rails.cache.read("user_1")), and increments the
+miss counter accordingly. If you pass in a ```:namespace``` key in the options
+hash, it will use that instead.
 
-This cache must also be able to complete _atomic increment_ operations with the #increment method.
+## Usage
 
-This is early development days for BattleShip. Please feel free to open an issue
-here with either questions or suggestions. And, of course, contributions are
-welcome.
+Just keep on using Rails.cache methods like you do today.
 
-## Installation
+Access the hits by calling ```#hits``` on your particular cache implementation (e.g.
+  ```Rails.cache.hits```) and passing in the namespace, e.g. User (either the string
+or the classname).
+Same deal with misses, but call ```#misses``` instead
+
+#### Installation
 
 Add this line to your application's Gemfile:
 
@@ -36,21 +39,9 @@ Or install it yourself as:
 
     $ gem install battle_ship
 
-## Usage
 
-Just keep on using Rails.cache methods like you do today. BattleShip makes
-certain assumptions that you should be aware of:
-* When there's a cache hit, it will increment the value of the returned object's
-  class name plus the string "\_hits" (e.g. a User object's hits will be stored
-in the cache at key ```"User_hits"```)
-* When there's a cache miss, BattleShip doesn't know exactly the class you were
-  expecting, so it assumes that you either: (1) Passed in a namespace key in
-the options hash, or (2) Named your key such that the first underscore occurs
-after the name of the class (e.g. "User_123").
-* Access the hits by calling ```#hits``` on your particular cache implementation (e.g.
-  ```Rails.cache.hits```) and passing in the namespace, e.g. User (either the string
-or the classname).
-* Same deal with misses, but call ```#misses``` instead
+#### Warnings, Caveats, etc.
+If you are using a cache store that does not subclass ActiveSupport::Cache::Store, then ```gem 'battle_ship``` must be listed _after_ the cache store you're using (the only example I'm currently aware of is Dalli).
 
 
 ## Contributing
@@ -64,6 +55,5 @@ or the classname).
 ## To Do
 
 1. Add performance measurements
-2. Add rails example app
 3. Add config option for turning on/off
 4. Add config option for setting time-frame of hits/misses
