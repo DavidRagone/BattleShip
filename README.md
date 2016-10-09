@@ -25,7 +25,7 @@ hash, it will use that instead.
 
 ## Usage
 
-Cache things just liek you do with Rails.cache methods already.
+Cache things just like you do with Rails.cache methods already.
 
 Access the hits by calling ```#hits``` on your particular cache implementation (e.g.
   ```Rails.cache.hits```) and passing in the namespace, e.g. User (either the string
